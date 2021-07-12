@@ -64,20 +64,48 @@ const Weather = () => {
 
   return (
     <div>
-      <>
+      {fetchWeather ? (
+        <>
+          <Container>
+            {/* <WeatherImage src="/images/default.jpg" /> */}
+            <Wrap>
+              {" "}
+              <Input
+                onKeyPress={SubmitSearch}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                placeholder="Search"
+                prefix={<BiSearchAlt />}
+              />
+            </Wrap>
+            <Mydate>{dateBuilder(new Date())}</Mydate>
+            <Location>
+              {fetchWeather.name}, {fetchWeather.sys.country}
+            </Location>
+            <Degree>{Math.round(fetchWeather.main.temp)}'C</Degree>
+            <Condition>{fetchWeather.weather[0].description}</Condition>
+          </Container>
+        </>
+      ) : (
         <Container>
           <Wrap>
             {" "}
-            <Input placeholder="Search" prefix={<BiSearchAlt />} />
+            <Input
+              onKeyPress={SubmitSearch}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+              placeholder="Search"
+              prefix={<BiSearchAlt />}
+            />
           </Wrap>
           <Mydate>{dateBuilder(new Date())}</Mydate>
-          <Location>
-            {fetchWeather.name}, {fetchWeather.sys.country}
-          </Location>
-          <Degree>{Math.round(fetchWeather.main.temp)}'C</Degree>
-          <Condition>{fetchWeather.weather[0].description}</Condition>
+          <Location>Default, null</Location>
+          <Degree>0'C</Degree>
+          <Condition>DESCRIPTION</Condition>
         </Container>
-      </>
+      )}
     </div>
   );
 };
@@ -103,6 +131,22 @@ const Container = styled.div`
     z-index: -1;
   }
 `;
+
+// const WeatherImage = styled.img`
+//   width: 100vw;
+//   height: 100vh;
+//   position: absolute;
+
+//   &:before {
+//     content: "";
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     z-index: -1;
+//   }
+// `;
 
 const Wrap = styled.div`
   display: flex;
@@ -152,4 +196,5 @@ const Mydate = styled.div`
   font-weight: bold;
   color: white;
   font-family: poppins;
+  margin-top: 20px;
 `;
